@@ -1,23 +1,23 @@
 #include <stdio.h>
+
 #define MAXLINE 1000	/* maximum input line length */
+#define TABSTOP 8
+
 
 int getLine(char line[], int maxline);
-void copy(char to[], char from[]);
-void reverse(char string[]);
+void detab(char to[], char from[]);
+
 
 /* print the longest input line */
 int main()
 {
 	int len;	/* current line length */
-	int max;	/* maximum length seen so far */
 	char line[MAXLINE];	/* current input line */
 	char longest[MAXLINE];	/* longest line saved here */
 	
-	max = 0;
 	while ((len = getLine(line, MAXLINE)) > 0) {
 		if (len > 0) {
-			copy(longest, line);
-			reverse(longest);
+			detab(longest, line);
 			printf("%s", longest);
 		}
 	}
@@ -43,31 +43,36 @@ int getLine(char s[], int lim)
 }
 
 
-/* copy: copy 'from' into 'to'; assume to is big enough */
-void copy(char to[], char from[])
-{
-	int i;
-	
-	i = 0;
-	while ((to[i] = from[i]) != '\0')
-		++i;
-}
-
-
-/* reverse the given string */
-void reverse(char string[])
+/* detab: replace tabs with appropriate number of spaces */
+void detab(char to[], char from[])
 {
 	int i, j;
-	char temp;
+	int tabposition;
 	i = j = 0;
-	while (string[i] != '\0')
+	
+	while (from[i] != '\0') {
+		if (from[i] == '\t') {
+			tabposition = j % TABSTOP;
+			if (tabposition == 0) {
+				int k = 0;
+				while (k < TABSTOP) {
+					to[j] = ' ';
+					++j;
+					++k;
+				}
+			} else {
+				int k = 0;
+				while (k < (TABSTOP - tabposition)) {
+					to[j] = ' ';
+					++j;
+					++k;
+				}
+			}
+		} else {
+			to[j] = from[i];
+			++j;
+		}
 		++i;
-	--i;
-	while (i > j) {
-		temp = string[i];
-		string[i] = string[j];
-		string[j] = temp;
-		--i;
-		++j;
 	}
+	to[j] = '\0';
 }
