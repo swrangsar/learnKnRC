@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #define MAXLINE 1000	/* maximum input line length */
-#define TABSTOP 8
 #define FOLDLENGTH 20	/* maximum length after fold */
 
 int getLine(char line[], int maxline);
