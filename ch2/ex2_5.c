@@ -2,8 +2,8 @@
 #define MAXLINE 1000	/* maximum input line length */
 
 int getLine(char line[], int maxline);
-void squeezeChar(char s[], int c);
-void squeeze(char s1[], char s2[]);
+int anyChar(char s[], int c);
+int any(char s1[], char s2[]);
 
 
 /* print the longest input line */
@@ -16,8 +16,7 @@ int main()
 	len2 = getLine(line2, MAXLINE);
 	
 	if (len1 && len2) {
-		squeeze(line1, line2);
-		printf("%s\n", line1);
+		printf("The first matching index is: %d\n", any(line1, line2));
 	}
 		
 	return 0;
@@ -40,23 +39,31 @@ int getLine(char s[], int lim)
 	return i;
 }
 
-/* squeezeChar: squeeze a single character */
-void squeezeChar(char s[], int c)
-{
-	int i, j;
-	
-	for (i = j = 0; s[i] != '\0'; ++i)
-		if (s[i] != c)
-			s[j++] = s[i];
-	s[j] = '\0';
-}
 
-/* squeeze: squeeze s1 with characters in s2 */
-void squeeze(char s1[], char s2[])
+/* anyChar: find a character in the string */
+int anyChar(char s[], int c)
 {
 	int i = 0;
-	while (s2[i] != '\0') {
-		squeezeChar(s1, s2[i]);
+	while (s[i] != '\0') {
+		if (c == s[i])
+			return 1;
 		++i;
 	}
+	return 0;
+}
+
+/* any: get first index of s1 character present in s2 */
+int any(char s1[], char s2[])
+{
+	int index = -1;
+	int i = 0;
+	
+	while (s1[i] != '\0') {
+		if (anyChar(s2, s1[i])) {
+			index = i+1;
+			break;
+		}
+		++i;
+	}
+	return index;
 }
