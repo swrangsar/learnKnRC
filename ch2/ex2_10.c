@@ -1,21 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAXLINE 1000	/* maximum input line length */
 
 int getLine(char line[], int maxline);
-int lower(int c);
-void lowerString(char s[]);
+int binsearch(int x, int v[], int n);
 
 
 int main()
 {
 	int len;	/* current line length */
 	char line[MAXLINE];	/* current input line */
+	int v[100];
+	
+	int i;
+	for (i = 0; i < 100; ++i) {
+		v[i] = (i + 1) * 5;
+	}
 	
 	len = getLine(line, MAXLINE);
-	lowerString(line);
+	
 	if (len) {
-		printf("The lower case string is:\n%s\n", line);
+		printf("The matching index is: %d\n", binsearch(atoi(line), v, i));
 	}
 		
 	return 0;
@@ -39,19 +45,25 @@ int getLine(char s[], int lim)
 }
 
 
-/* lower: convert a character to lowercase */
-int lower(int c)
+/* binsearch: find x in v[] */
+int binsearch(int x, int v[], int n)
 {
-	return (c >= 'A' && c <= 'Z') ? (c + 'a' - 'A'):(c);
-}
-
-
-/* lowerString: convert a string to lowercase */
-void lowerString(char s[])
-{
-	int i = 0;
-	while (s[i] != '\0') {
-		s[i] = lower(s[i]);
-		++i;
+	int low, high, mid;
+	low = 0;
+	high = n-1;
+	
+	while (low <= high) {
+		mid = (low + high)/2;
+		if (x < v[mid]) {
+			high = mid-1;
+		} else {
+			low = mid+1;
+		}
+	}
+	
+	if (x == v[mid]) {
+		return mid;
+	} else {
+		return -1;
 	}
 }
