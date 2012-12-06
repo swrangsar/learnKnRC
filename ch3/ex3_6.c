@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #define MAXLINE 1000	/* maximum input line length */
 
 int getLine(char line[], int maxline);
 void reverse(char s[]);
-void itob(int n, char s[], int b);
+void itoa(int n, char s[], int minFieldWidth);
 
-
+/* expand shorthand notations */
 int main()
 {
 	int len;	/* current line length */
@@ -17,7 +18,7 @@ int main()
 	
 	while ((len = getLine(line, MAXLINE)) > 0) {
 		if (len > 0) {
-			itob(atoi(line), expandedLine, 16);
+			itoa(atoi(line), expandedLine, 8);
 			printf("%s\n", expandedLine);
 		}		
 	}
@@ -57,25 +58,54 @@ void reverse(char s[])
 
 
 /* itoa: convert n to characters in s */
-void itob(int n, char s[], int b)
+void itoa(int n, char s[], int minFieldWidth)
 {
-	int i, sign;
+	int i, sign, flag;
+	flag = 0;
 	if ((sign = n) < 0) {
-		n = -n;
+		if (n == INT_MIN) {
+			n = -(n + 1);
+			flag = 1;
+		} else {
+			n = -n;
+		}
 	}
 	
 	i = 0;
 	do {
-		if ((n%b) < 10)
-			s[i++] = n%b + '0';
-		else 
-			s[i++] = n%b + 'a' - 10;
-	} while ((n /= b) > 0);
+		s[i++] = n%10 + '0';
+	} while ((n /= 10) > 0);
 	
 	if (sign < 0)
 		s[i++] = '-';
+	while (i < minFieldWidth) {
+		s[i++] = ' ';
+	}
 	s[i] = '\0';
 	
+	int carry = 1;
+	if (flag) {
+		int k = 0;
+		
+		while (carry == 1 && s[k] != '-') {
+			if ((s[k]-'0' + 1) > 9) {
+				carry = 1;
+				s[k] = '0';
+			} else {
+				s[k] += 1;
+				carry = 0;
+			}
+			++k;
+		}
+		if (carry  == 1 && (s[k] == '-')) {
+			s[k++] = 1 + '0';
+			s[k++] = '-';
+			while (k < minFieldWidth) {
+				s[k++] = ' ';
+			}
+			s[k++] = '\0';
+		}
+	}
 	
 	reverse(s);
 }
