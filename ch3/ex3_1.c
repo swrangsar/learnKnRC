@@ -14,8 +14,9 @@ int main()
 	int v[100];
 	
 	int i;
-	for (i = 0; i < 100; ++i) {
-		v[i] = (i + 1) * 5;
+	v[0] = 5;
+	for (i = 1; i < 100; ++i) {
+		v[i] = v[i-1] + 5;
 	}
 	
 	len = getLine(line, MAXLINE);
@@ -49,6 +50,7 @@ int getLine(char s[], int lim)
 int binsearch(int x, int v[], int n)
 {
 	int low, high, mid;
+	int temp = 0;
 	low = 0;
 	high = n-1;
 	
@@ -58,12 +60,15 @@ int binsearch(int x, int v[], int n)
 			high = mid-1;
 		} else {
 			low = mid+1;
+			temp = mid;
 		}
 	}
-	
-	if (x == v[mid]) {
-		return mid;
+
+
+	if ((int)(x - v[temp]) == 0) {
+		return temp;
 	} else {
 		return -1;
 	}
+	
 }
