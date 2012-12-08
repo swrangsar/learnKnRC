@@ -44,9 +44,9 @@ int strend(char *s, char *t)
 {
 	int flag;
 	flag = 0;
-	while (*s != '\0')
+	while (*s != '\0' && *s != '\n')
 		s++;
-	while (*t != '\0')
+	while (*t != '\0' && *t != '\n')
 		t++;
 	while (t && s && *--t == *--s)
 		flag = 1;
