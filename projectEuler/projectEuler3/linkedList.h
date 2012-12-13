@@ -13,7 +13,6 @@ typedef struct linkedList {
 } linkedList;
 
 linkedList *createLinkedList(void);
-static linkedListNode *createLinkedListNode(long prime);
 void enlist(linkedList *LinkedList, long prime);
 linkedListNode *delist(linkedList *LinkedList);
 void destroyLinkedList(linkedList *LinkedList);

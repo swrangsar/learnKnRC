@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "checkPrime.h"
 
 int checkPrime(linkedList *LinkedList, long number)
@@ -8,8 +9,8 @@ int checkPrime(linkedList *LinkedList, long number)
 	flag = 1;
 	linkedListNode *conductor;
 	conductor = LinkedList->head;
-	while (conductor) {
-		if ((number)%(conductor->prime) == 0) {
+	while (conductor && ((long)conductor->object) <= ((long)sqrt(number)) ) {
+		if ((number)%((long)conductor->object) == 0) {
 			flag = 0;
 			return flag;
 		}
@@ -17,7 +18,7 @@ int checkPrime(linkedList *LinkedList, long number)
 	}
 	
 	if (flag && number > 1) {
-		enlist(LinkedList, number);
+		enlist(LinkedList, (void *)number);
 	} else {
 			return (flag = 0);
 	}

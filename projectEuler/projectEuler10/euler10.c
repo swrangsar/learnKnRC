@@ -12,7 +12,7 @@ int main()
 	num = 1;
 	linkedList *primeList;
 	primeList = createLinkedList();
-	enlist(primeList, 2);
+	enlist(primeList, (void *)2);
 	while (num < NUMBER) {
 		if (checkPrime(primeList, num) && num > maxPrime) {
 			maxPrime = num;

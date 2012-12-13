@@ -15,7 +15,7 @@ linkedList *createLinkedList(void)
 	return newLinkedList;
 }
 
-static linkedListNode *createLinkedListNode(long prime)
+static linkedListNode *createLinkedListNode(void *object)
 {
 	linkedListNode *newLinkedListNode;
 	newLinkedListNode = malloc(sizeof(linkedListNode));
@@ -23,16 +23,16 @@ static linkedListNode *createLinkedListNode(long prime)
 		printf("Linked list node could not be allocated.\n");
 		exit(1);
 	}
-	newLinkedListNode->prime = prime;
+	newLinkedListNode->object = object;
 	newLinkedListNode->prev = NULL;
 	newLinkedListNode->next = NULL;
 	return newLinkedListNode;
 }
 
-void enlist(linkedList *LinkedList, long prime)
+void enlist(linkedList *LinkedList, void *object)
 {
 	linkedListNode *newLinkedListNode;
-	newLinkedListNode = createLinkedListNode(prime);
+	newLinkedListNode = createLinkedListNode(object);
 	newLinkedListNode->prev = LinkedList->tail;
 	if (!LinkedList->head) {
 		LinkedList->head = newLinkedListNode;

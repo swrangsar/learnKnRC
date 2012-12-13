@@ -2,7 +2,7 @@
 #define _LINKEDLIST_H
 
 typedef struct linkedListNode {
-	long prime;
+	void *object;
 	struct linkedListNode *prev;
 	struct linkedListNode *next;
 } linkedListNode;
@@ -13,8 +13,7 @@ typedef struct linkedList {
 } linkedList;
 
 linkedList *createLinkedList(void);
-static linkedListNode *createLinkedListNode(long prime);
-void enlist(linkedList *LinkedList, long prime);
+void enlist(linkedList *LinkedList, void *object);
 linkedListNode *delist(linkedList *LinkedList);
 void destroyLinkedList(linkedList *LinkedList);
 
